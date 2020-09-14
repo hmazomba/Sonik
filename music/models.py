@@ -1,7 +1,7 @@
 from django.db import models
 from django.conf import settings
 # Create your models here.
- class Songs(models.Model):
+class Songs(models.Model):
     id = models.AutoField(primary_key=True)
     title = models.CharField(max_length=255, null=False)
     artist = models.CharField(max_length=255, null=False)
