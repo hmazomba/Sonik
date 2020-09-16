@@ -30,7 +30,32 @@ DEBUG = True
 
 ALLOWED_HOSTS = []
 
+#User settings
+AUTH_USER_MODEL = 'users.CustomUser'
 
+ACCOUNT_USER_MODEL_USERNAME_FIELD = None
+
+ACCOUNT_EMAIL_REQUIRED = True
+ACCOUNT_UNIQUE_EMAIL = True
+ACCOUNT_USERNAME_REQUIRED = False
+ACCOUNT_AUTHENTICATION_METHOD = 'email'
+#change optional to mandatory to require email verification
+ACCOUNT_EMAIL_VERIFICATION = 'optional'
+ACCOUNT_CONFTIM_EMAIL_ON_GET = True
+#Change these to set custom page to redirect user after email verification
+ACCOUNT_EMAIL_CONFIRMATION_ANONYMOUS_REDIRECT_URL = '/'
+ACCOUNT_EMAIL_CONFIRMATION_AUTHENTICATED_REDIRECT_URL='/'
+
+SITE_ID = 1
+
+EMAIL_BACKEND ='django.core.mail.backends.console.EmailBackend'
+
+AUTHENTICATION_BACKENDS = (
+    #default
+    'django.contrib.auth.backends.ModelBackend',
+    #email login
+    'allauth.account.auth_backends.AuthenticationBackend',
+)
 # Application definition
 
 INSTALLED_APPS = [
@@ -125,3 +150,32 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/3.1/howto/static-files/
 
 STATIC_URL = '/static/'
+
+#JWT
+REST_FRAMEWORK={
+    'DEFAULT_PERMISSION_CLASSES': (
+        'rest_framework.permissions.IsAdminUser',
+    ),
+    'TEST_REQUEST_RENDERER_CLASSES':(
+        'rest_framework.renderers.MultiPartRenderer',
+        'rest_framework.renderers.JSONRenderer',
+        'rest_framework.renderers.TemplateHTMLRenderer'
+    ),
+    'DEFAULT_AUTHENTICATION_CLASSES':
+    (
+        'rest_framework_jwt.authentication.JSONWebTokenAuthentication',
+        'rest.framework.authentication.SessionAuthentication',        
+    ),
+    
+    'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.LimitOffsetPagination',
+    'PAGE_SIZE': 20
+    
+}
+
+from datetime import timedelta
+
+JWT_AUTH = {
+    'JWT_ALLOW_REFRESH': True,
+    'JWT_EXPIRATION_DELTA': timedelta(hours=1),
+    'JWT_REFRESH_EXPIRATION_DELTA': timedelta(days=1)
+}
