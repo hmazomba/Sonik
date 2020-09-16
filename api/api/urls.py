@@ -18,7 +18,9 @@ from django.urls import path, include, re_path
 from django.conf.urls import url
 from django.conf import settings
 from django.conf.urls.static import static
-from allauth.account.views import confirm_email    
+from allauth.account.views import confirm_email 
+from rest_framework_jwt.views import obtain_jwt_token
+from rest_framework_jwt.views import refresh_jwt_token   
 
 urlpatterns = [
     path('admin/', admin.site.urls),

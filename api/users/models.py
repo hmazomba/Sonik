@@ -20,8 +20,8 @@ class CustomUser(AbstractUser):
     
     def set_avatar(self):
         avatar = self.avatar
-    if not avatar:
-        self.avatar="REPLACE AVATAR URL" 
+        if not avatar:
+            self.avatar ="REPLACE AVATAR URL" 
         
     def __str__(self):
         return self.email      
